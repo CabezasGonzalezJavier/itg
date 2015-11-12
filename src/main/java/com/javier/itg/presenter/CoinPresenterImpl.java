@@ -16,7 +16,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -42,12 +41,15 @@ public class CoinPresenterImpl  implements CoinPresenter {
 
             Long currentMiliSeconds= Calendar.getInstance().getTimeInMillis();
 
-            if (currentMiliSeconds>mTime+ Constants.MILISECONDS_PER_HOUR){
-                new CallClient().execute(url, type);
+            if(mTime!=null) {
+                if (currentMiliSeconds > mTime + Constants.MILISECONDS_PER_HOUR) {
+                    new CallClient().execute(url, type);
+                } else {
+                    new CallFile().execute();
+                }
             } else {
                 new CallFile().execute();
             }
-
         }
 
     }
