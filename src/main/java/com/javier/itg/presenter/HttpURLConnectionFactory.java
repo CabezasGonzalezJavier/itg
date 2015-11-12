@@ -24,8 +24,4 @@ public class HttpURLConnectionFactory {
         return sConnection;
     }
 
-    public static void setHttpURLConnection(HttpURLConnection mockReader) {
-        sConnection = mockReader;
-        hasmockConnection = true;
-    }
 }

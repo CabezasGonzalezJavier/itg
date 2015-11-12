@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.javier.itg.model.Bet;
 import com.javier.itg.model.response.Coin;
 import com.javier.itg.presenter.CoinPresenterImpl;
 import com.javier.itg.utils.Constants;
@@ -16,11 +17,13 @@ import com.javier.itg.utils.Utils;
 import com.javier.itg.view.CoinView;
 import com.javier.itg.view.adapter.CoinAdapter;
 
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity implements CoinView, AdapterView.OnItemClickListener{
 
     private ListView mListView;
     private View mLoading;
-    private Coin mCoin;
+    private List<Bet> mBetList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -29,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements CoinView, Adapter
         initiateUI();
 
         CoinPresenterImpl coinPresenter = new CoinPresenterImpl(this);
-        coinPresenter.executeAsync(Constants.URL, Constants.TYPE);
+        coinPresenter.execute(Constants.URL, Constants.TYPE);
 
     }
 
@@ -47,8 +50,8 @@ public class MainActivity extends AppCompatActivity implements CoinView, Adapter
     }
 
     @Override
-    public void onRequestSuccess(Coin coin) {
-        mCoin = coin;
+    public void onRequestSuccess(List<Bet> betList) {
+        mBetList = betList;
         buildingListView();
         showLoading(false);
     }
@@ -76,14 +79,14 @@ public class MainActivity extends AppCompatActivity implements CoinView, Adapter
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent intent = new Intent(this,DetailActivity.class);
-        intent.putExtra(Constants.PARCELABLE, mCoin.getData().get(position));
+        intent.putExtra(Constants.PARCELABLE, mBetList.get(position));
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
     public void buildingListView (){
 
-        CoinAdapter coinAdapter = new CoinAdapter(this, mCoin.getData());
+        CoinAdapter coinAdapter = new CoinAdapter(this, mBetList);
         mListView.setAdapter(coinAdapter);
     }
 }

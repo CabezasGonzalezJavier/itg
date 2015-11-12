@@ -8,18 +8,18 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.javier.itg.R;
-import com.javier.itg.model.response.Datum;
+import com.javier.itg.model.Bet;
 
 import java.util.List;
 
 /**
  * Created by javiergonzalezcabezas on 12/11/15.
  */
-public class CoinAdapter extends ArrayAdapter<Datum> {
+public class CoinAdapter extends ArrayAdapter<Bet> {
     private final Context mContext;
-    private final List<Datum> mList;
+    private final List<Bet> mList;
 
-    public CoinAdapter(Context context, List<Datum> list) {
+    public CoinAdapter(Context context, List<Bet> list) {
         super(context, -1, list);
         this.mContext = context;
         this.mList = list;

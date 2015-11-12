@@ -9,7 +9,7 @@ import java.util.List;
 public class Coin {
     private String response;
     private String currency;
-    private List<Datum> data = new ArrayList<Datum>();
+    private List<Datum> data = new ArrayList<>();
     private int mCode;
     private boolean mInterneterror;
 
