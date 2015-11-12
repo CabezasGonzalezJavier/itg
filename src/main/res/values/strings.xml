@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">ITG</string>
+    <string name="activity_main_on_request_error">Request error</string>
+    <string name="activity_main_general_error">General error</string>
+    <string name="activity_main_no_internet">No internet</string>
+</resources>
