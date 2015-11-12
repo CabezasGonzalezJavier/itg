@@ -15,6 +15,9 @@ import java.util.List;
  */
 public class Parser {
 
+    /**
+     * this method was created for parsing JSON
+     */
     public static  Coin parserJSON(String data) {
         Coin coin = new Coin();
         try {

@@ -22,7 +22,9 @@ public class DetailActivity extends AppCompatActivity {
         initiateUI(result);
     }
 
-
+    /**
+     * this method was created for initing  UI element
+     */
     private void initiateUI(Bet datumResult) {
         TextView nameTextView = (TextView) findViewById(R.id.activity_detail_name_text_view);
         TextView jackpotTextView = (TextView) findViewById(R.id.activity_detail_jackpot_text_view);

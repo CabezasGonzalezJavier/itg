@@ -25,6 +25,9 @@ public class Utils {
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return netInfo != null && netInfo.isConnectedOrConnecting();
     }
+    /**
+     * this method was created for writing to file
+     */
     public static void writeToFile(String data, Context context) {
         try {
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(
@@ -39,6 +42,9 @@ public class Utils {
         }
     }
 
+    /**
+     * this method was created for reading to file
+     */
     public static String readFromFile(Context context) {
 
         String ret = "";

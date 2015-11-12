@@ -36,7 +36,9 @@ public class MainActivity extends AppCompatActivity implements CoinView, Adapter
 
     }
 
-
+    /**
+     * this method was created for initing  UI element
+     */
     private void initiateUI() {
         mListView = (ListView) findViewById(R.id.activity_main_list_view);
         mListView.setOnItemClickListener(this);

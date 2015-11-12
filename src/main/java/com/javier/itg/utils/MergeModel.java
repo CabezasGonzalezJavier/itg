@@ -14,6 +14,9 @@ import java.util.List;
  */
 public class MergeModel {
 
+    /**
+     * this method was created for merging Model
+     */
     public static List<Bet> mergeModel(Coin coin) {
         List<Bet> list = new ArrayList<>();
         for (int i = 0; i<coin.getData().size(); i++){
@@ -32,6 +35,9 @@ public class MergeModel {
     }
 
 
+    /**
+     * this method was created for converting Date for locale formatting.
+     */
     public static String converStringToDate(String dateInString) {
         String returnString;
         String[] parts = dateInString.split("\\+");
