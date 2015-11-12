@@ -1,12 +1,35 @@
 package com.javier.itg.model.response;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by javiergonzalezcabezas on 12/11/15.
  */
-public class Datum {
+public class Datum implements Parcelable {
     private String name;
     private Integer jackpot;
     private String date;
+
+    public Datum() {}
+
+    public Datum(Parcel in) {
+        name = in.readString();
+        jackpot = in.readInt();
+        date = in.readString();
+    }
+
+    public static final Creator<Datum> CREATOR = new Creator<Datum>() {
+        @Override
+        public Datum createFromParcel(Parcel in) {
+            return new Datum(in);
+        }
+
+        @Override
+        public Datum[] newArray(int size) {
+            return new Datum[size];
+        }
+    };
 
     /**
      *
@@ -63,4 +86,15 @@ public class Datum {
     }
 
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(name);
+        dest.writeInt(jackpot);
+        dest.writeString(date);
+    }
 }

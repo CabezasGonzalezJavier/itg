@@ -3,6 +3,11 @@ package com.javier.itg;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import com.javier.itg.model.response.Datum;
+import com.javier.itg.utils.Constants;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -10,7 +15,27 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+        Bundle extras = getIntent().getExtras();
+        if (extras == null) {
+            return;
+        }
+
+        Datum datumResult = extras.getParcelable(Constants.PARCELABLE);
+        initiateUI(datumResult);
     }
+
+
+    private void initiateUI(Datum datumResult) {
+        TextView nameTextView = (TextView) findViewById(R.id.activity_detail_name_text_view);
+        TextView jackpotTextView = (TextView) findViewById(R.id.activity_detail_jackpot_text_view);
+        TextView dateTextView = (TextView) findViewById(R.id.activity_detail_date_text_view);
+
+        nameTextView.setText(datumResult.getName());
+        jackpotTextView.setText(String.valueOf(datumResult.getJackpot()));
+        dateTextView.setText(datumResult.getDate());
+
+    }
+
     @Override
     public void onBackPressed()
     {

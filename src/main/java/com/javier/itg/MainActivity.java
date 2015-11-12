@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity implements CoinView, Adapter
 
     private ListView mListView;
     private View mLoading;
+    private Coin mCoin;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,7 +48,8 @@ public class MainActivity extends AppCompatActivity implements CoinView, Adapter
 
     @Override
     public void onRequestSuccess(Coin coin) {
-        buildingListView(coin);
+        mCoin = coin;
+        buildingListView();
         showLoading(false);
     }
 
@@ -73,13 +75,15 @@ public class MainActivity extends AppCompatActivity implements CoinView, Adapter
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        startActivity(new Intent(this,DetailActivity.class));
+        Intent intent = new Intent(this,DetailActivity.class);
+        intent.putExtra(Constants.PARCELABLE, mCoin.getData().get(position));
+        startActivity(intent);
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
-    public void buildingListView (Coin coin){
+    public void buildingListView (){
 
-        CoinAdapter coinAdapter = new CoinAdapter(this, coin.getData());
+        CoinAdapter coinAdapter = new CoinAdapter(this, mCoin.getData());
         mListView.setAdapter(coinAdapter);
     }
 }
