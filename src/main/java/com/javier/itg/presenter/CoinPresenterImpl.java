@@ -1,5 +1,6 @@
 package com.javier.itg.presenter;
 
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 
 import com.javier.itg.model.Bet;
@@ -21,8 +22,7 @@ import java.util.List;
 /**
  * Created by javiergonzalezcabezas on 12/11/15.
  */
-public class CoinPresenterImpl  implements CoinPresenter {
-    private Long mTime;
+public class CoinPresenterImpl implements CoinPresenter {
     private CoinView mCoinView;
 
     public CoinPresenterImpl(CoinView mCoinView) {
@@ -32,28 +32,32 @@ public class CoinPresenterImpl  implements CoinPresenter {
 
     @Override
     public void execute(String url, String type) {
-        if (Utils.readFromFile(mCoinView.getContext()).isEmpty()) {
-            mTime = Calendar.getInstance().getTimeInMillis();
+        SharedPreferences prefs = mCoinView.getContext().getSharedPreferences(Constants.PREFERENCES, mCoinView.getContext().MODE_PRIVATE);
 
+        SharedPreferences.Editor editor = prefs.edit();
+
+        if (Utils.readFromFile(mCoinView.getContext()).isEmpty()) {
+            Long time = Calendar.getInstance().getTimeInMillis();
+
+            editor.putLong(Constants.TIME, time);
+            editor.commit();
             new CallClient().execute(url, type);
 
         } else {
 
-            Long currentMiliSeconds= Calendar.getInstance().getTimeInMillis();
+            Long currentMiliSeconds = Calendar.getInstance().getTimeInMillis();
 
-            if(mTime!=null) {
-                if (currentMiliSeconds > mTime + Constants.MILISECONDS_PER_HOUR) {
-                    new CallClient().execute(url, type);
-                } else {
-                    new CallFile().execute();
-                }
+            if (currentMiliSeconds > prefs.getLong(Constants.TIME, currentMiliSeconds) + Constants.MILISECONDS_PER_HOUR) {
+                editor.putLong(Constants.TIME, currentMiliSeconds);
+                editor.commit();
+                new CallClient().execute(url, type);
             } else {
                 new CallFile().execute();
             }
+
         }
 
     }
-
 
 
     public class CallClient extends AsyncTask<String, Void, Coin> {
@@ -95,7 +99,6 @@ public class CoinPresenterImpl  implements CoinPresenter {
                 connection.setRequestMethod(type);
 
 
-
                 BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 
                 String inputLine;
@@ -106,7 +109,7 @@ public class CoinPresenterImpl  implements CoinPresenter {
                     response.append(inputLine);
                 }
 
-                Utils.writeToFile(response.toString(),mCoinView.getContext());
+                Utils.writeToFile(response.toString(), mCoinView.getContext());
                 responseModel = Parser.parserJSON(response.toString());
 
                 responseModel.setCode(connection.getResponseCode());
@@ -122,13 +125,14 @@ public class CoinPresenterImpl  implements CoinPresenter {
 
 
     }
+
     public class CallFile extends AsyncTask<String, Void, List<Bet>> {
 
         @Override
         protected List<Bet> doInBackground(String... params) {
             Coin responseModel = new Coin();
             responseModel = Parser.parserJSON(Utils.readFromFile(mCoinView.getContext()));
-            return MergeModel.mergeModel(responseModel );
+            return MergeModel.mergeModel(responseModel);
         }
 
         @Override
@@ -137,4 +141,6 @@ public class CoinPresenterImpl  implements CoinPresenter {
         }
 
     }
+
+
 }
