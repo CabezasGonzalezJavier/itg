@@ -8,18 +8,18 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.javier.itg.R;
-import com.javier.itg.model.response.Coin;
+import com.javier.itg.model.response.Datum;
 
 import java.util.List;
 
 /**
  * Created by javiergonzalezcabezas on 12/11/15.
  */
-public class CoinAdapter extends ArrayAdapter<Coin> {
+public class CoinAdapter extends ArrayAdapter<Datum> {
     private final Context mContext;
-    private final List<Coin> mList;
+    private final List<Datum> mList;
 
-    public CoinAdapter(Context context, List<Coin> list) {
+    public CoinAdapter(Context context, List<Datum> list) {
         super(context, -1, list);
         this.mContext = context;
         this.mList = list;
@@ -41,7 +41,7 @@ public class CoinAdapter extends ArrayAdapter<Coin> {
         }
         // fill data
         ViewHolder holder = (ViewHolder) rowView.getTag();
-        holder.text.setText(mList.get(position).getData().get(position).getName());
+        holder.text.setText(mList.get(position).getName());
         return rowView;
     }
 

@@ -9,10 +9,12 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.javier.itg.model.response.Coin;
 import com.javier.itg.presenter.CoinPresenterImpl;
 import com.javier.itg.utils.Constants;
 import com.javier.itg.utils.Utils;
 import com.javier.itg.view.CoinView;
+import com.javier.itg.view.adapter.CoinAdapter;
 
 public class MainActivity extends AppCompatActivity implements CoinView, AdapterView.OnItemClickListener{
 
@@ -22,7 +24,7 @@ public class MainActivity extends AppCompatActivity implements CoinView, Adapter
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setContentView(R.layout.activity_main);
         initiateUI();
 
         CoinPresenterImpl coinPresenter = new CoinPresenterImpl(this);
@@ -33,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements CoinView, Adapter
 
     private void initiateUI() {
         mListView = (ListView) findViewById(R.id.activity_main_list_view);
-//        mListView.setOnItemClickListener(this);
+        mListView.setOnItemClickListener(this);
         mLoading = findViewById(R.id.activity_main_loading);
     }
 
@@ -44,12 +46,13 @@ public class MainActivity extends AppCompatActivity implements CoinView, Adapter
     }
 
     @Override
-    public void onRequestSuccess(Object object) {
+    public void onRequestSuccess(Coin coin) {
+        buildingListView(coin);
         showLoading(false);
     }
 
     @Override
-    public void onRequestError(Object object) {
+    public void onRequestError(Coin object) {
         showLoading(false);
         Toast.makeText(this, R.string.activity_main_on_request_error, Toast.LENGTH_LONG).show();
     }
@@ -72,5 +75,11 @@ public class MainActivity extends AppCompatActivity implements CoinView, Adapter
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         startActivity(new Intent(this,DetailActivity.class));
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+    }
+
+    public void buildingListView (Coin coin){
+
+        CoinAdapter coinAdapter = new CoinAdapter(this, coin.getData());
+        mListView.setAdapter(coinAdapter);
     }
 }
