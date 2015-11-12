@@ -3,6 +3,8 @@ package com.javier.itg.presenter;
 import android.os.AsyncTask;
 
 import com.javier.itg.model.response.Coin;
+import com.javier.itg.utils.Parser;
+import com.javier.itg.utils.Utils;
 import com.javier.itg.view.CoinView;
 
 import java.io.BufferedReader;
@@ -80,6 +82,7 @@ public class CoinPresenterImpl extends AsyncTask<String, Void, Coin> implements 
             }
             responseJson = response.toString();
 
+            responseModel = Parser.parserJSON(response.toString());
 
             responseModel.setCode(connection.getResponseCode());
             in.close();

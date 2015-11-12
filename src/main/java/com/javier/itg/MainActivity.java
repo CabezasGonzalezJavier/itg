@@ -33,9 +33,8 @@ public class MainActivity extends AppCompatActivity implements CoinView, Adapter
 
     private void initiateUI() {
         mListView = (ListView) findViewById(R.id.activity_main_list_view);
-        mListView.setOnItemClickListener(this);
+//        mListView.setOnItemClickListener(this);
         mLoading = findViewById(R.id.activity_main_loading);
-        mLoading.setVisibility(View.GONE);
     }
 
     @Override
