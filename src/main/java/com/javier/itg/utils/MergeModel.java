@@ -1,6 +1,5 @@
 package com.javier.itg.utils;
 
-import com.javier.itg.R;
 import com.javier.itg.model.Bet;
 import com.javier.itg.model.response.Coin;
 
@@ -21,8 +20,7 @@ public class MergeModel {
             Bet bet = new Bet();
             StringBuilder stringBuilder = new StringBuilder();
             bet.setName(coin.getData().get(i).getName());
-//            bet.setDate(converStringToDate(coin.getData().get(i).getDate()));
-            bet.setDate(coin.getData().get(i).getDate());
+            bet.setDate(converStringToDate(coin.getData().get(i).getDate()));
             stringBuilder.append(coin.getData().get(i).getJackpot());
             stringBuilder.append(" ");
             stringBuilder.append(coin.getCurrency());
@@ -36,10 +34,15 @@ public class MergeModel {
 
     public static String converStringToDate(String dateInString) {
         String returnString;
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-ddTHH:mm:ss+01:00");
-        SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String[] parts = dateInString.split("\\+");
+        String partFormat = parts[0];
+        String part2 = parts[1];
+        part2.substring(0,0);
+
+        SimpleDateFormat formatter = new SimpleDateFormat( "yyyy-MM-dd'T'HH:mm:ssZ");
+        SimpleDateFormat myFormat = new SimpleDateFormat("HH:mm:ss");
         try {
-            Date date = formatter.parse(dateInString);
+            Date date = formatter.parse( dateInString.replaceAll(":(?=..$)", ""));
             returnString = myFormat.format(date);
         } catch (ParseException e) {
             e.printStackTrace();

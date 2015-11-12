@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 
 import com.javier.itg.model.Bet;
 import com.javier.itg.model.response.Coin;
+import com.javier.itg.utils.Constants;
 import com.javier.itg.utils.MergeModel;
 import com.javier.itg.utils.Parser;
 import com.javier.itg.utils.Utils;
@@ -14,12 +15,15 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
  * Created by javiergonzalezcabezas on 12/11/15.
  */
 public class CoinPresenterImpl  implements CoinPresenter {
+    private Long mTime;
     private CoinView mCoinView;
 
     public CoinPresenterImpl(CoinView mCoinView) {
@@ -30,9 +34,19 @@ public class CoinPresenterImpl  implements CoinPresenter {
     @Override
     public void execute(String url, String type) {
         if (Utils.readFromFile(mCoinView.getContext()).isEmpty()) {
+            mTime = Calendar.getInstance().getTimeInMillis();
+
             new CallClient().execute(url, type);
+
         } else {
-            new CallFile().execute();
+
+            Long currentMiliSeconds= Calendar.getInstance().getTimeInMillis();
+
+            if (currentMiliSeconds>mTime+ Constants.MILISECONDS_PER_HOUR){
+                new CallClient().execute(url, type);
+            } else {
+                new CallFile().execute();
+            }
 
         }
 
